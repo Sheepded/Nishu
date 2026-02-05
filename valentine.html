@@ -7,6 +7,8 @@
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
       margin: 0;
@@ -19,21 +21,21 @@
     }
 
     h1 {
-      font-size: 50px;
+      font-size: 8vw; /* responsive font size */
       color: #ff4d6d;
-      margin-top: 80px;
-      text-shadow: 2px 2px 12px rgba(255, 77, 109, 0.7);
+      margin-top: 10vw;
+      text-shadow: 2px 2px 10px rgba(255, 77, 109, 0.7);
     }
 
     .buttons {
-      margin-top: 40px;
+      margin-top: 8vw;
       position: relative;
-      height: 200px;
+      height: 20vw; /* relative to viewport */
     }
 
     button {
-      font-size: 22px;
-      padding: 12px 25px;
+      font-size: 4vw; /* responsive font size */
+      padding: 3vw 6vw;
       border: none;
       border-radius: 12px;
       cursor: pointer;
@@ -66,8 +68,8 @@
     /* Heart styling */
     .heart {
       position: absolute;
-      width: 20px;
-      height: 20px;
+      width: 5vw;
+      height: 5vw;
       background-color: transparent;
       transform: rotate(45deg);
       pointer-events: none;
@@ -103,19 +105,26 @@
         opacity: 0.7;
       }
       100% {
-        transform: translateX(var(--sway, 0px)) translateY(-1200px) rotate(360deg);
+        transform: translateX(var(--sway, 0px)) translateY(-120vh) rotate(360deg);
         opacity: 0;
       }
+    }
+
+    @media (max-width: 600px) {
+      h1 { margin-top: 15vw; font-size: 10vw; }
+      .buttons { height: 25vw; }
+      button { font-size: 5vw; padding: 4vw 8vw; }
+      .heart { width: 8vw; height: 8vw; }
     }
   </style>
 </head>
 <body>
 
-  <h1>Esha, Will you be my Valentine? ❤️</h1>
+  <h1>Will you be my Valentine? ❤️</h1>
 
   <div class="buttons">
     <button class="yes" onclick="celebrate()">Yes 💖</button>
-    <button class="no" onmouseover="runAway()">No 😏</button>
+    <button class="no" onmouseover="runAway()" ontouchstart="runAway()">No 😏</button>
   </div>
 
   <script>
@@ -125,13 +134,14 @@
       heart.classList.add('heart');
 
       heart.style.left = Math.random() * window.innerWidth + 'px';
-      const size = 10 + Math.random() * 30;
-      heart.style.width = heart.style.height = size + 'px';
+      const size = Math.random() * 5 + 3 + 'vw';
+      heart.style.width = heart.style.height = size;
       heart.style.setProperty('--sway', (Math.random() * 100 - 50) + 'px');
 
       const colors = ['#ff99c8', '#ffb3c6', '#ffd6e8', '#ff4d6d', '#ffc0cb', '#ffe0f0', '#ffb6c1'];
       const color = colors[Math.floor(Math.random() * colors.length)];
       heart.style.setProperty('--heart-color', color);
+
       heart.style.animationDuration = (6 + Math.random() * 6) + 's';
       heart.style.opacity = 0.3 + Math.random() * 0.7;
 
@@ -176,20 +186,16 @@
       }, 300);
     }
 
-    // No button dodge effect
+    // No button dodge effect (mobile friendly)
     function runAway() {
       const noBtn = document.querySelector('.no');
-
-      // Get current position
       const rect = noBtn.getBoundingClientRect();
       const currentX = rect.left;
       const currentY = rect.top;
 
-      // Generate a random nearby offset
-      const offsetX = (Math.random() * 120 - 60); // move max ±60px
-      const offsetY = (Math.random() * 80 - 40);  // move max ±40px
+      const offsetX = (Math.random() * 100 - 50);
+      const offsetY = (Math.random() * 80 - 40);
 
-      // New position within window bounds
       let newX = currentX + offsetX;
       let newY = currentY + offsetY;
 
@@ -207,4 +213,3 @@
 
 </body>
 </html>
-
