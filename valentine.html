@@ -111,7 +111,7 @@
 </head>
 <body>
 
-  <h1>Esha, Will you be my Valentine? ❤️</h1>
+  <h1>Will you be my Valentine? ❤️</h1>
 
   <div class="buttons">
     <button class="yes" onclick="celebrate()">Yes 💖</button>
@@ -119,38 +119,26 @@
   </div>
 
   <script>
-    // Generate adorable floating hearts continuously
+    // Magical floating hearts
     function createHeart() {
       const heart = document.createElement('div');
       heart.classList.add('heart');
 
-      // Random horizontal start
       heart.style.left = Math.random() * window.innerWidth + 'px';
-
-      // Random size
       const size = 10 + Math.random() * 30;
       heart.style.width = heart.style.height = size + 'px';
-
-      // Random sway for floating
       heart.style.setProperty('--sway', (Math.random() * 100 - 50) + 'px');
 
-      // Random pastel color
       const colors = ['#ff99c8', '#ffb3c6', '#ffd6e8', '#ff4d6d', '#ffc0cb', '#ffe0f0', '#ffb6c1'];
       const color = colors[Math.floor(Math.random() * colors.length)];
       heart.style.setProperty('--heart-color', color);
-
-      // Apply color to before/after
-      heart.querySelectorAll ? heart.querySelectorAll('*').forEach(el => el.style.backgroundColor = color) : null;
       heart.style.animationDuration = (6 + Math.random() * 6) + 's';
       heart.style.opacity = 0.3 + Math.random() * 0.7;
 
       document.body.appendChild(heart);
-
-      // Remove heart after it floats off screen
       setTimeout(() => heart.remove(), 12000);
     }
 
-    // Spawn hearts rapidly for full cute background
     setInterval(createHeart, 150);
 
     // Confetti on Yes
@@ -191,12 +179,31 @@
     // No button dodge effect
     function runAway() {
       const noBtn = document.querySelector('.no');
-      const x = Math.random() * 300 - 150;
-      const y = Math.random() * 150 - 75;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+
+      // Get current position
+      const rect = noBtn.getBoundingClientRect();
+      const currentX = rect.left;
+      const currentY = rect.top;
+
+      // Generate a random nearby offset
+      const offsetX = (Math.random() * 120 - 60); // move max ±60px
+      const offsetY = (Math.random() * 80 - 40);  // move max ±40px
+
+      // New position within window bounds
+      let newX = currentX + offsetX;
+      let newY = currentY + offsetY;
+
+      const maxX = window.innerWidth - rect.width;
+      const maxY = window.innerHeight - rect.height;
+
+      if (newX < 0) newX = 0;
+      if (newX > maxX) newX = maxX;
+      if (newY < 0) newY = 0;
+      if (newY > maxY) newY = maxY;
+
+      noBtn.style.transform = `translate(${newX - rect.left}px, ${newY - rect.top}px)`;
     }
   </script>
 
 </body>
-
 </html>
